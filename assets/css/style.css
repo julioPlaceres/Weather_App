@@ -1,0 +1,318 @@
+/*----  Global definitions  -----*/
+:root{
+    --darkGray:#31343d;
+    --mintColor:#92ccce;
+}
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: white;
+}
+
+/*----  Header and navigation  -----*/
+header{
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: row;
+    padding-top: 2%;
+    padding-right: 2%;
+    padding-bottom: 2%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    background-color: var(--darkGray);
+    justify-content: space-between;
+}
+
+header h1{
+    color:var(--darkGray);
+    font-size: 30px;
+    background-color: var(--mintColor);
+    border: 3px var(--mintColor) solid;
+    padding: 10px;
+    width: 300px;
+}
+
+nav{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+header nav ul {
+    list-style: none;
+    display: inline-flex;
+    margin-right: 10px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 25px;
+    flex-direction: row;
+}
+
+header nav ul li{
+    margin-right: 20px;
+}
+
+header a{
+    color: var(--mintColor);
+    background-color: var(--darkGray);
+    text-decoration: none;
+}
+
+nav{
+display: flex;
+justify-content: flex-end;
+flex-wrap: wrap;
+flex: 0 0 70%;
+align-items: center;
+flex-direction: row;
+}
+
+.main-image-container{
+    display: flex;
+    background-image: url(../images/GamingStudioMain.jpg);
+    background-size: cover;
+    background-position: center;
+    min-height: 30vh;
+    padding: 1vw;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.main-image-container h2{
+    background-color: var(--mintColor);
+    flex: 0 0 25%;
+}
+
+.main-image-container img{
+    max-width: 20vw;
+    flex: 0 0 20%;
+    box-shadow: 5px 2px 5px 2px var(--darkGray)
+}
+
+
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-content:  space-between;
+    max-width: 100%;
+}
+
+
+/*----  About Me Section -----*/
+
+#aboutMe{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: stretch;
+    margin-top: 25px;
+}
+
+/*----  division for header to keep it center -----*/
+.div-h{
+    display: flex;
+    flex: 0 0 20%;
+    border-right: 5px solid var(--mintColor);
+    justify-content: center;
+    align-items: center;
+}
+
+#aboutMe h2{
+    flex: 0 0 20%;
+    text-align: center;
+    font-size: 45px;
+    margin-right: 10px;
+}
+
+#aboutMe p{
+    flex: 0 0 80%;
+    padding-left: 50px;font-size: 18px;
+}
+
+/*----  Work Section -----*/
+
+#work{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: stretch;
+    margin-top: 25px;
+}
+
+#work h2{
+    display: flex;
+    flex: 0 0 20%;
+    justify-content:flex-end;
+    padding-right: 25px;
+    padding: 10%;
+    font-size: 45px;
+    line-height: 1.1;
+}
+
+.projects{
+    flex: 0 0 80%;
+    padding-left: 50px;
+}
+
+.mainProject{
+    display: flex;
+    flex-wrap: wrap;
+    flex: 0 0 80%;
+    background-image: url(../images/2b.png);
+    background-size: cover;
+    background-position: center;
+    border: 4px solid var(--mintColor);
+    height: 700px;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.mainProject h3{
+    color: var(--darkGray);
+    background-color: var(--mintColor);
+    align-self: flex-end;
+}
+
+#project-1{
+    background-image: url(../images/3.jpg);
+}
+
+#project-2{
+    background-image: url(../images/2.jpg);
+}
+
+#project-3{
+    background-image: url(../images/1.jpg);
+}
+
+#project-4{
+    background-image: url(../images/4.jpg);
+}
+
+.secondary-project{
+    flex: 0 0 40%;
+    display: inline-flex;
+    flex-wrap: wrap;
+    background-size: cover;
+    background-position:center;
+    justify-content: space-between;
+    border: 4px solid var(--mintColor);
+    height: 400px;
+    width: 45%;
+}
+
+.secondary-project h3{
+    color: var(--darkGray);
+    background-color: var(--mintColor);
+    align-self: flex-end;
+}
+
+/*----  Footer definitions  -----*/
+footer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    text-align: center;
+    padding-top: 25px;
+}
+
+.footer-h{
+    flex: 0 0 20%;
+}
+
+footer h2{
+    display: flex;
+    flex: 0 0 20%;
+    justify-content:flex-end;
+    font-size: 45px;
+    line-height: 1.1;
+}
+
+.footer-p{
+    flex: 0 0 80%;
+    list-style: none;
+    display: inline-flex;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    flex-direction: row;
+}
+
+footer ul{
+    flex: 0 0 80%;
+    font-size: 20px;
+    display: inline-flex;
+}
+
+footer li{
+    flex: 0 0 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 25px;
+    flex-grow: 1;
+    justify-content: center;
+    color: black;
+}
+
+.footer-p a{
+    color: black;
+}
+
+
+/*----- Automation ----*/
+
+nav a:hover{
+    border: 100% 100%;
+    color: var(--darkGray);
+    background-color: var(--mintColor);
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: column;
+        flex-wrap: wrap;  
+        align-content: center; 
+    }
+
+    #aboutMe{
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    #work{
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-content: space-between;
+    }
+
+    #contactMe{
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-content: space-between;
+    }
+
+    .div-h{
+        border-bottom: 5px solid var(--mintColor);
+        border-right: 0;
+        padding-top: 20px;
+        margin: 5%;
+        align-content: center;
+        flex-direction: column;
+    }
+
+    .footer-p{
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+    .footer-p ul li{
+        flex-direction: column;
+        flex-wrap: wrap;
+    }
+
+}
