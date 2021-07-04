@@ -1,19 +1,53 @@
-var cityName = $("#cityName").text;
+// HTML ELemnets 
+var formEl = $("#weatherForm")
+var cityNameEl = $('input[name="city-name"]');
+var displayBtn = $("#displayBtn");
 
-$("#btnSave").on("click", displayValues);
+// Object that will storage all data for the dashboard
+var weather = {
+  city: "",
+  temp: "",
+  wind: "",
+  humidity: "",
+  latitude: "",
+  longitude: ""
+}
 
-function displayValues(){
+// Event listeners
+displayBtn.on("click", makeApiCalls);
 
-  console.log(cityName);
+// Makes all api calls
+function makeApiCalls(event){
+  event.preventDefault();
 
-  var weatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=2e370526086d5f8b1a8a2f455e36dc61";
+  getCordinates();
+  // getDataByCordinates();
+}
+
+// Retrieve some of the data based on city name 
+// also get latitued and longitude needed for the next query
+function getCordinates() {
+  // event.preventDefault();
+
+  let weatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?q="
+    + cityNameEl.val() + "&appid=" + apiKey +"&units=imperial";
 
   fetch(weatherApiUrl)
     .then(function (response) {
+      if(!response.ok){
+        // TODO: complete this later by adding html with error handling
+        console.error(response.status);
+        return;
+      }
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+      weather.city = data.name;
+      weather.temp = data.main.temp + " °F";
+      weather.wind = data.wind.speed + " MPH";
+      weather.humidity = data.main.humidity + " %";
+      weather.latitude = data.coord.lat;
+      weather.longitude = data.coord.lon;
+      console.log(weather);
     });
-
 }

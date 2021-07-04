@@ -1,21 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="resetSheet" href="./assets/css/reset.css"/>
-    <link rel="styleSheet" href="./assets/css/style.css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    <link rel="resetSheet" href="./assets/css/reset.css" />
+    <link rel="styleSheet" href="./assets/css/style.css" />
     <title>Document</title>
 </head>
 
 <body>
 
-    <div class="testClass">
-        <textarea name="city" id="cityName"></textarea>
-        <button id="btnSave">Dsiplay</button>
-    </div>
-    
+    <form id="weatherForm">
+        <fieldset class="group">
+            <div class="col-12 col-sm-6">
+                <label for="city-name">City Name</label>
+                <input type="text" class="form-input" name="city-name" placeholder="Enter a city name" />
+            </div>
+        </fieldset>
+        <button id="displayBtn" class="btn btn-block btn-danger">Submit Form</button>
+    </form>
+
+    <div id="displayResults"></div>
+
 </body>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="./assets/js/apiKeys.js"></script>
 <script src="./assets/js/script.js"></script>
+
 </html>
