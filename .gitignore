@@ -104,4 +104,4 @@ dist
 .tern-port
 
 #Ignore Api File
-./assets/js/apiKeys.js
+.apiKeys.js
