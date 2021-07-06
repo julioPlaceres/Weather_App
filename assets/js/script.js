@@ -23,13 +23,11 @@ function makeApiCalls(event) {
   event.preventDefault();
 
   getCordinates();
-  // getDataByCordinates();
 }
 
 // Retrieve some of the data based on city name 
 // also get latitued and longitude needed for the next query
 function getCordinates() {
-  // event.preventDefault();
 
   let weatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?q="
     + cityNameEl.val() + "&appid=" + apiKey + "&units=imperial";
@@ -50,12 +48,10 @@ function getCordinates() {
       weather.humidity = data.main.humidity + " %";
       weather.latitude = data.coord.lat;
       weather.longitude = data.coord.lon;
-      console.log(weather);
-      console.log(data);
 
       // Create a section for the header of the data
-      var weatherHeader = $("<div>"); 
-      weatherHeader.attr("class", "row"); // Need to center this
+      var weatherHeader = $("<div>");
+      weatherHeader.attr("class", "row h3 ml-1"); // Need to center this
       weatherHeader.attr("id", "headerRow");
 
       // Create City Name and Time element
@@ -81,10 +77,89 @@ function getCordinates() {
       imageIcon.attr("alt", "Weather Icon");
       imageIcon.attr("width", "50px");
 
+      // Create an element for the content
+      var displayData = $("<div>");
+      displayData.attr("class", "col");
+
+      // Create text elements and add text
+      var temp = $("<p>");
+      temp.text("Temp: " + weather.temp);
+      var wind = $("<p>");
+      wind.text("Wind: " + weather.wind);
+      var humidity = $("<p>");
+      humidity.text("Humidity: " + weather.humidity);
+
+      // Clear Weather Header
+      $("#displayResults").html("");
+
       // Append elements to the DOM
       weatherHeader.append(cityNameText);
       weatherHeader.append(weatherIcon);
       weatherIcon.append(imageIcon);
       displayAreaEl.append(weatherHeader);
+      displayAreaEl.append(displayData);
+      displayData.append(temp);
+      displayData.append(wind);
+      displayData.append(humidity);
+
+      //===========================================================================================
+
+      let weatherApiUrl2 = "https://api.openweathermap.org/data/2.5/onecall?" +
+        "lat=" + weather.latitude + "&lon=" + weather.longitude + "&exclude=" + "hourly" + "&units=imperial" + "&appid=" + apiKey
+
+      fetch(weatherApiUrl2)
+        .then(function (response2) {
+          if (!response2.ok) {
+            // TODO: complete this later by adding html with error handling
+            console.error(response2.status);
+            return;
+          }
+          return response2.json();
+        })
+        .then(function (data2) {
+          //console.log(data2);
+          //console.log(data2.daily);
+
+          // Clear all cards before appending new ones
+          $(".card").html("");
+
+          $(data2.daily).each(function (element) {
+            if (element == 5) { return false }
+
+            // Date & Time
+            var dt = data2.daily[element].dt
+            dt = new Date(dt * 1000);
+            dt = moment(dt, "MM/DD/YYYY").format("(MM/DD/YYYY)");
+
+            // Get icon code
+            var iconCode2 = data2.daily[element].weather[0].icon;
+            // concadenate it to the url
+            var iconUrl = "http://openweathermap.org/img/wn/" + iconCode2 + "@2x.png";
+
+            var temp2 = data2.daily[element].temp.day;
+            var wind2 = data2.daily[element].wind_speed;
+            var humidity2 = data2.daily[element].humidity;
+
+            // console.log(dt);
+            // console.log(iconUrl);
+            // console.log(temp2);
+            // console.log(wind2);
+            // console.log(humidity2);
+
+            var cardDay = $("<div>").attr("class", "card-body");
+            var cardTitle = $("<h5>").attr("class", "card-title");
+            var cardText = $("<p>").attr("class", "card-text");
+
+            cardTitle.text(dt);
+            // Add icon
+            cardText.text("Temp: " + temp2 + " Wind: " + wind2 + " Humidity: " + humidity2);
+
+            card = $(".card");
+            card.append(cardDay);
+            cardDay.append(cardTitle);
+            cardDay.append(cardText);
+
+          });
+        });
     });
 }

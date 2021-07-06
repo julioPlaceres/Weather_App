@@ -14,17 +14,23 @@
 
 <body>
 
+    <nav class="navbar navbar-dark" style="background-color: #3A2A92;">
+        <h2 class="col-md-12 text-center" style="color: white;">Weather Dashboard</h2>
+    </nav>
+
     <form id="weatherForm">
-        <fieldset class="group">
-            <div class="col-12 col-sm-6">
-                <label for="city-name">City Name</label>
-                <input type="text" class="form-input" name="city-name" placeholder="Enter a city name" />
+        <!-- <fieldset> -->
+            <div class="form-group container d-inline-block ml-2 mt-2 col-md-6">
+                <label class="font-weight-bold w-50 col-md-3" for="city-name">Search for a City:</label>
+                <input type="text" class="form-input w-50 col-md-2 mb-2" name="city-name" placeholder="Orlando" />
             </div>
-        </fieldset>
-        <button id="displayBtn" class="btn btn-block btn-danger">Submit Form</button>
+        <!-- </fieldset> -->
+        <button id="displayBtn" class="btn btn-block btn-danger col-md-2">Search</button>
     </form>
 
     <div id="displayResults"></div>
+
+    <div class="card" style="width: 18rem;"></div>
 
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
