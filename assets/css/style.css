@@ -1,11 +1,1 @@
-/*----  Global definitions  -----*/
-:root{
-    --darkGray:#31343d;
-    --mintColor:#92ccce;
-}
 
-#displayResults{
-    width: 500px;
-    height: 500px;
-    border: 5px #92ccce dashed;
-}

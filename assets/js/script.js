@@ -3,6 +3,8 @@ var formEl = $("#weatherForm")
 var cityNameEl = $('input[name="city-name"]');
 var displayBtn = $("#displayBtn");
 var displayAreaEl = $("#displayResults");
+var clearBtn = $(".clearBtn");
+var weatherHistory = [];
 
 // Object that will storage all data for the dashboard
 var weather = {
@@ -15,22 +17,52 @@ var weather = {
   longitude: ""
 }
 
+displayMyList();
+
 // Event listeners
 displayBtn.on("click", makeApiCalls);
+clearBtn.on("click", clearList);
+
+function clearList() {
+  if (weatherHistory.length > 0) {
+    localStorage.removeItem("cityName");
+    location.reload();
+  }
+}
 
 // Makes all api calls
 function makeApiCalls(event) {
   event.preventDefault();
 
-  getCordinates();
+  getCordinates(cityNameEl.val());
 }
+
+function displayMyList() {
+  weatherHistory = JSON.parse(localStorage.getItem("cityName")) || [];
+  console.log(weatherHistory);
+  $("#historyBtns").text("");
+  if (weatherHistory.length > 0) {
+    for (let i = 0; i < weatherHistory.length; i++) {
+      console.log("Index: " + i);
+      addName(weatherHistory[i]);
+    }
+  }
+}
+
+function addName(cityName) {
+  var btn = $("<button>").text(cityName);
+  btn.attr("class", "btn btn-secondary my-2");
+  $("#historyBtns").append(btn);
+  console.log(cityName);
+}
+
 
 // Retrieve some of the data based on city name 
 // also get latitued and longitude needed for the next query
-function getCordinates() {
+function getCordinates(searchInput) {
 
   let weatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?q="
-    + cityNameEl.val() + "&appid=" + apiKey + "&units=imperial";
+    + searchInput + "&appid=" + apiKey + "&units=imperial";
 
   fetch(weatherApiUrl)
     .then(function (response) {
@@ -50,12 +82,11 @@ function getCordinates() {
       weather.longitude = data.coord.lon;
 
       // Create a section for the header of the data
-      var weatherHeader = $("<div>");
-      weatherHeader.attr("class", "row h3 ml-1"); // Need to center this
-      weatherHeader.attr("id", "headerRow");
+      let weatherHeader = $("<div>");
+      weatherHeader.attr("class", "h3");
 
       // Create City Name and Time element
-      var cityNameText = $("<div>");
+      let cityNameText = $("<div>");
       // Asign it some text
       cityNameText.text(weather.city + moment().format(" (MM/DD/YYYY) "));
 
@@ -65,12 +96,11 @@ function getCordinates() {
       let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + "@2x.png"
 
       // Create icon element
-      var weatherIcon = $("<div>");
+      let weatherIcon = $("<div>");
       // Set ID for Weather Icon
       weatherIcon.attr("id", "icon");
-      weatherIcon.attr("display", "flex");
       // Create Image inside the weather Icon Div
-      var imageIcon = $("<img>");
+      let imageIcon = $("<img>");
       // Set properties for Image Icon
       imageIcon.attr("id", "weatherIcon");
       imageIcon.attr("src", iconUrl);
@@ -78,16 +108,22 @@ function getCordinates() {
       imageIcon.attr("width", "50px");
 
       // Create an element for the content
-      var displayData = $("<div>");
-      displayData.attr("class", "col");
+      let displayData = $("<div>");
+      displayData.attr("class", "py-1");
 
       // Create text elements and add text
-      var temp = $("<p>");
+      let temp = $("<p>");
       temp.text("Temp: " + weather.temp);
-      var wind = $("<p>");
+      let wind = $("<p>");
       wind.text("Wind: " + weather.wind);
-      var humidity = $("<p>");
+      let humidity = $("<p>");
       humidity.text("Humidity: " + weather.humidity);
+
+      // Create buttons
+      let cityList = $("#cityList");
+      let cityBtn = $("<button>");
+      cityBtn.text(weather.city);
+      cityBtn.attr("class", "cityBtn");
 
       // Clear Weather Header
       $("#displayResults").html("");
@@ -101,6 +137,14 @@ function getCordinates() {
       displayData.append(temp);
       displayData.append(wind);
       displayData.append(humidity);
+      cityList.append(cityBtn);
+
+      //Save Data to local storage
+      if (weatherHistory.indexOf(weather.city) == -1) {
+        weatherHistory.push(weather.city);
+        localStorage.setItem("cityName", JSON.stringify(weatherHistory)) || [];
+        displayMyList(weather.city);
+      }
 
       //===========================================================================================
 
@@ -117,48 +161,52 @@ function getCordinates() {
           return response2.json();
         })
         .then(function (data2) {
-          //console.log(data2);
-          //console.log(data2.daily);
 
           // Clear all cards before appending new ones
-          $(".card").html("");
+          $(".forecast").html("");
+
+          // Create Card row - add attributes and append it to the card container
+          card = $(".forecast");
+          var cardRow = $("<div>").attr("class", "row text-center");
+          card.append(cardRow);
 
           $(data2.daily).each(function (element) {
             if (element == 5) { return false }
 
             // Date & Time
-            var dt = data2.daily[element].dt
+            let dt = data2.daily[element].dt
             dt = new Date(dt * 1000);
             dt = moment(dt, "MM/DD/YYYY").format("(MM/DD/YYYY)");
 
             // Get icon code
-            var iconCode2 = data2.daily[element].weather[0].icon;
+            let iconCode = data2.daily[element].weather[0].icon;
+
             // concadenate it to the url
-            var iconUrl = "http://openweathermap.org/img/wn/" + iconCode2 + "@2x.png";
+            let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
 
-            var temp2 = data2.daily[element].temp.day;
-            var wind2 = data2.daily[element].wind_speed;
-            var humidity2 = data2.daily[element].humidity;
+            let temp2 = data2.daily[element].temp.day;
+            let wind2 = data2.daily[element].wind_speed;
+            let humidity2 = data2.daily[element].humidity;
 
-            // console.log(dt);
-            // console.log(iconUrl);
-            // console.log(temp2);
-            // console.log(wind2);
-            // console.log(humidity2);
+            let cardDay = $("<div>").attr("class", "col-md card ms-3 w-auto");
+            let dateEl = $("<div>").text(dt);
+            let tempEl = $("<div>").text("Temp: " + temp2);
+            let windEl = $("<div>").text("Wind: " + wind2);
+            let humidityEl = $("<div>").text("Humidity: " + humidity2);
+            let weatherIcon = $("<div>").attr("id", "icon");
+            let imageIcon = $("<img>");
+            imageIcon.attr("id", "weatherIcon");
+            imageIcon.attr("src", iconUrl);
+            imageIcon.attr("alt", "Weather Icon");
+            imageIcon.attr("width", "50px");
 
-            var cardDay = $("<div>").attr("class", "card-body");
-            var cardTitle = $("<h5>").attr("class", "card-title");
-            var cardText = $("<p>").attr("class", "card-text");
-
-            cardTitle.text(dt);
-            // Add icon
-            cardText.text("Temp: " + temp2 + " Wind: " + wind2 + " Humidity: " + humidity2);
-
-            card = $(".card");
-            card.append(cardDay);
-            cardDay.append(cardTitle);
-            cardDay.append(cardText);
-
+            cardRow.append(cardDay);
+            cardDay.append(dateEl);
+            weatherIcon.append(imageIcon);
+            cardDay.append(weatherIcon);
+            cardDay.append(tempEl);
+            cardDay.append(windEl);
+            cardDay.append(humidityEl);
           });
         });
     });

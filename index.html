@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     <link rel="resetSheet" href="./assets/css/reset.css" />
     <link rel="styleSheet" href="./assets/css/style.css" />
     <title>Document</title>
@@ -14,24 +14,40 @@
 
 <body>
 
-    <nav class="navbar navbar-dark" style="background-color: #3A2A92;">
-        <h2 class="col-md-12 text-center" style="color: white;">Weather Dashboard</h2>
+    <!--Header-->
+    <nav class="text-center" style="background-color: darkslategray;">
+        <h2 class="py-3" style="color: white;">Weather Dashboard</h2>
     </nav>
 
-    <form id="weatherForm">
-        <!-- <fieldset> -->
-            <div class="form-group container d-inline-block ml-2 mt-2 col-md-6">
-                <label class="font-weight-bold w-50 col-md-3" for="city-name">Search for a City:</label>
-                <input type="text" class="form-input w-50 col-md-2 mb-2" name="city-name" placeholder="Orlando" />
-            </div>
-        <!-- </fieldset> -->
-        <button id="displayBtn" class="btn btn-block btn-danger col-md-2">Search</button>
-    </form>
+    <main class="container">
 
-    <div id="displayResults"></div>
+        <!--Search Side Bar-->
+        <div class="row">
+            <aside id="searchContainer" class="col-lg-3">
+                <form id="weatherForm">
+                    <label class="font-weight-bold" for="city-name">Search for a City:</label>
+                    <div class="pt-2"></div>
+                    <input type="text" class="form-input" name="city-name" placeholder="Orlando" />
+                    <div class="pt-2"></div>
+                    <button id="displayBtn" class="btn btn-block btn-danger mb-2">Search</button>
+                </form>
 
-    <div class="card" style="width: 18rem;"></div>
+                <!--History-->
+                <div class="d-grid row" id="historyBtns"></div>
+                <!--Border-->
+                <div class="border-top border-4 border-danger mt-4"></div>
+                <!--Clear History-->
+                <div class="d-grid mt-2"><button class="btn btn-secondary clearBtn" type="button">Clear History</button>
+                </div>
+            </aside>
 
+            <!--Display current City Weather-->
+            <div id="displayResults" class="col-lg-9"></div>
+
+            <!--Forecast for the next 5 days-->
+            <section class="forecast pt-3"></section>
+
+    </main>
 </body>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="./assets/js/apiKeys.js"></script>
