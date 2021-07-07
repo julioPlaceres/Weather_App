@@ -51,7 +51,7 @@ function addName(cityName) {
 
 // When user click on searched history buttons will trigger API calls based on 
 // the value specifed on the target text
-function displayTarget(event){
+function displayTarget(event) {
   var cityClicked = event.target.innerHTML;
   getCityData(cityClicked);
 }
@@ -68,6 +68,8 @@ function clearList() {
 function makeApiCalls(event) {
   event.preventDefault();
 
+  if (displayBtn.val() == null) { return; }
+
   getCityData(cityNameEl.val());
 }
 
@@ -82,11 +84,12 @@ function getCityData(searchInput) {
     .then(function (response) {
       // Checks if there's any error and display to the page
       if (!response.ok) {
-        var error = $(".errorHandling");
-        var errorDescription = $("<div>").text(response.status + " " + response.statusText);
+        let error = $(".errorHandling");
+        let errorDescription = $("<div>").text(response.status + " " + response.statusText);
         error.append(errorDescription);
         return;
       }
+      $(".errorHandling").text("");
       return response.json();
     })
     .then(function (data) {
@@ -163,6 +166,7 @@ function getCityData(searchInput) {
         displayMyList(weather.city);
       }
 
+      // Start Forecast Data API call
       //===========================================================================================
 
       let forecastApiUrl = "https://api.openweathermap.org/data/2.5/onecall?" +
@@ -171,13 +175,36 @@ function getCityData(searchInput) {
       fetch(forecastApiUrl)
         .then(function (forecastResponse) {
           if (!forecastResponse.ok) {
-            // TODO: complete this later by adding html with error handling
-            console.error(forecastResponse.status);
+            var error = $(".errorHandling");
+            var errorDescription = $("<div>").text(response.status + " " + response.statusText);
+            error.append(errorDescription);
             return;
           }
+          $(".errorHandling").text("");
           return forecastResponse.json();
         })
         .then(function (forecastData) {
+
+          // create uv index element and assign the uv index value to it
+          let uvIndex = $("<button>");
+          uvIndex.text("uv Index: : " + forecastData.current.uvi);
+
+          // If statements for the color of the uv Index
+          let uv = forecastData.current.uvi;
+          if (uv <= 2) {
+            uvIndex.attr("class", "btn bg-success");
+          }
+
+          if (uv > 2 && uv < 8) {
+            uvIndex.attr("class", "btn bg-warning");
+          }
+
+          if (uv > 7 && uv < 11) {
+            uvIndex.attr("class", "btn bg-danger");
+          }
+
+          // Appends uv Index to page
+          displayAreaEl.append(uvIndex);
 
           // Clear all cards before appending new ones
           $(".forecast").html("");
@@ -201,10 +228,12 @@ function getCityData(searchInput) {
             // concadenate it to the url
             let iconUrl = "http://openweathermap.org/img/wn/" + iconCode + "@2x.png";
 
+            // Gets All data for the forcast
             let forecastTemp = forecastData.daily[element].temp.day;
             let forecastWind = forecastData.daily[element].wind_speed;
             let forecastHumidity = forecastData.daily[element].humidity;
 
+            // Create elements and assign values to it
             let cardDay = $("<div>").attr("class", "col-md card ms-3 w-auto");
             let dateEl = $("<div>").text(dt);
             let tempEl = $("<div>").text("Temp: " + forecastTemp);
@@ -217,6 +246,7 @@ function getCityData(searchInput) {
             imageIcon.attr("alt", "Weather Icon");
             imageIcon.attr("width", "50px");
 
+            // Append created elements to the page
             cardRow.append(cardDay);
             cardDay.append(dateEl);
             weatherIcon.append(imageIcon);
