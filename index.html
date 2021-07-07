@@ -14,13 +14,12 @@
 
 <body>
 
-    <!--Header-->
+    <!--Header for the application-->
     <nav class="text-center" style="background-color: darkslategray;">
         <h2 class="py-3" style="color: white;">Weather Dashboard</h2>
     </nav>
 
     <main class="container">
-
         <!--Search Side Bar-->
         <div class="row">
             <aside id="searchContainer" class="col-lg-3">
@@ -32,20 +31,23 @@
                     <button id="displayBtn" class="btn btn-block btn-danger mb-2">Search</button>
                 </form>
 
-                <!--History-->
+                <!--History of cities-->
                 <div class="d-grid row" id="historyBtns"></div>
-                <!--Border-->
+                <!--divider between cities and clear btn-->
                 <div class="border-top border-4 border-danger mt-4"></div>
-                <!--Clear History-->
+                <!--Clear History btn-->
                 <div class="d-grid mt-2"><button class="btn btn-secondary clearBtn" type="button">Clear History</button>
                 </div>
             </aside>
 
-            <!--Display current City Weather-->
+            <!--Display current searched city weather-->
             <div id="displayResults" class="col-lg-9"></div>
 
             <!-- Forecast for the next 5 days -->
             <section class="forecast pt-3"></section>
+
+            <!-- Display API Errors -->
+            <section class="errorHandling pt-3"></section>
 
     </main>
 </body>
