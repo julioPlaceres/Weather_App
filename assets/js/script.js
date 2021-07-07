@@ -4,6 +4,7 @@ var cityNameEl = $('input[name="city-name"]');
 var displayBtn = $("#displayBtn");
 var displayAreaEl = $("#displayResults");
 var clearBtn = $(".clearBtn");
+var historyDiv = $("#historyBtns");
 var weatherHistory = [];
 
 // Object that will storage all data for the dashboard
@@ -17,11 +18,19 @@ var weather = {
   longitude: ""
 }
 
+
+
 displayMyList();
 
 // Event listeners
 displayBtn.on("click", makeApiCalls);
 clearBtn.on("click", clearList);
+historyDiv.on("click", displayTarget);
+
+function displayTarget(event){
+  var cityClicked = event.target.innerHTML;
+  getCordinates(cityClicked);
+}
 
 function clearList() {
   if (weatherHistory.length > 0) {
